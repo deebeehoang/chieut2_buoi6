@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{product/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .hero h1 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 32px;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+        
+        .feature-item {
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .feature-item i {
+            font-size: 40px;
+            color: #3b82f6;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .feature-item h3 {
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+        }
+        
+        .feature-item p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .cta-section {
+            background: #f3f4f6;
+            padding: 40px;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            color: #1f2937;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        
+        .cta-section p {
+            color: #6b7280;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="hero">
+            <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 16px; display: block; opacity: 0.95;"></i>
+            <h1>Product Management System</h1>
+            <p>Manage your inventory with a clean, simple interface. Create, edit, and organize products effortlessly.</p>
+            <div class="hero-buttons">
+                <a href="/products" th:href="@{/products}" class="btn btn-primary" style="padding: 12px 28px; font-size: 15px;">
+                    View Products
+                </a>
+                <a href="/products/create" th:href="@{/products/create}" class="btn btn-light" style="padding: 12px 28px; font-size: 15px; color: #3b82f6; background: white;">
+                    Add Product
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <h2 style="text-align: center; margin-bottom: 40px; color: #1f2937; font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">
+                Everything You Need
+            </h2>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <i class="fas fa-boxes"></i>
+                    <h3>Product Management</h3>
+                    <p>Easily add, edit, and remove products from your inventory with an intuitive interface.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-image"></i>
+                    <h3>Image Upload</h3>
+                    <p>Upload product images with support for various formats and automatic optimization.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-folder-tree"></i>
+                    <h3>Categories</h3>
+                    <p>Organize products into logical categories for better structure and navigation.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Validation</h3>
+                    <p>Built-in form validation ensures data accuracy and consistency across all entries.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Responsive Design</h3>
+                    <p>Works seamlessly on desktop, tablet, and mobile devices for on-the-go management.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-database"></i>
+                    <h3>Data Persistence</h3>
+                    <p>Your data is safely stored in our database with reliable persistence and backup.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Get Started?</h2>
+            <p>Begin managing your product inventory right now with our simple and effective platform.</p>
+            <a href="/products" th:href="@{/products}" class="btn btn-primary" style="padding: 11px 28px; font-size: 14px;">
+                Go to Products →
+            </a>
+        </div>
+    </div>
+</body>
+</html>

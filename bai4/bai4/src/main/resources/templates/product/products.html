@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{product/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Products List</title>
+    <style>
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            gap: 16px;
+        }
+        
+        .header-section h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 800;
+            color: #1f2937;
+            letter-spacing: -0.5px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .product-image {
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            object-fit: cover;
+        }
+        
+        .no-image {
+            color: #9ca3af;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .btn-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            padding: 8px 12px !important;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            color: #d1d5db;
+            display: block;
+            margin-bottom: 16px;
+        }
+        
+        .empty-state p {
+            color: #9ca3af;
+            margin: 0;
+        }
+        
+        .empty-state a {
+            color: #3b82f6;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .empty-state a:hover {
+            text-decoration: underline;
+        }
+        
+        .price-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .category-badge {
+            background: #f3e8ff;
+            color: #6b21a8;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="header-section">
+            <h2><i class="fas fa-list"></i> Products</h2>
+            <a sec:authorize="hasRole('ADMIN')" href="/products/create" th:href="@{/products/create}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Product
+            </a>
+        </div>
+        
+        <div style="overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);">
+            <table class="table" style="margin: 0;">
+                <thead style="background: #f9fafb; border-bottom: 2px solid #e5e7eb;">
+                    <tr>
+                        <th scope="col" style="width: 8%; color: #4b5563; font-weight: 600; padding: 16px 12px;">ID</th>
+                        <th scope="col" style="width: 22%; color: #4b5563; font-weight: 600; padding: 16px 12px;">Name</th>
+                        <th scope="col" style="width: 14%; color: #4b5563; font-weight: 600; padding: 16px 12px;">Price</th>
+                        <th scope="col" style="width: 18%; color: #4b5563; font-weight: 600; padding: 16px 12px;">Image</th>
+                        <th scope="col" style="width: 18%; color: #4b5563; font-weight: 600; padding: 16px 12px;">Category</th>
+                        <th sec:authorize="hasRole('ADMIN')" scope="col" style="width: 20%; text-align: right; color: #4b5563; font-weight: 600; padding: 16px 12px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${listproduct}" style="border-bottom: 1px solid #e5e7eb; transition: background 0.2s;">
+                        <td style="font-weight: 600; color: #3b82f6; padding: 16px 12px;" th:text="${product.id}"></td>
+                        <td style="padding: 16px 12px;">
+                            <span class="product-name" th:text="${product.name}"></span>
+                        </td>
+                        <td style="padding: 16px 12px;">
+                            <span class="price-badge" th:text="${#numbers.formatCurrency(product.price)}"></span>
+                        </td>
+                        <td style="padding: 16px 12px;">
+                            <img th:if="${product.image}" height="60" width="80" 
+                                 class="product-image" th:src="@{/images/} + ${product.image}" alt="Product">
+                            <span th:unless="${product.image}" class="no-image">
+                                <i class="fas fa-image"></i> No image
+                            </span>
+                        </td>
+                        <td style="padding: 16px 12px;">
+                            <span class="category-badge" th:text="${product.category?.name ?: 'N/A'}"></span>
+                        </td>
+                        <td sec:authorize="hasRole('ADMIN')" style="text-align: right; padding: 16px 12px;">
+                            <div class="action-buttons">
+                                <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-warning btn-icon" style="background: #fbbf24; color: white; border: none;">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a th:href="@{/products/delete/{id}(id=${product.id})}"
+                                   class="btn btn-danger btn-icon" style="background: #ef4444; color: white; border: none;"
+                                   onclick="return confirm('Delete this product?')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(listproduct)}">
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <p>No products yet. <a href="/products/create" th:href="@{/products/create}">Create one</a></p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
